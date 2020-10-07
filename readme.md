@@ -4,7 +4,7 @@
 
 Esta bibliteca contém métodos rápidos que ajudam a manipular dados de videos. Boa parte dos métodos usados aqui já existem na literatura.
 
-Os métodos repositórios foram implementados por mim.
+Os métodos do repositórios foram implementados por mim.
 
 ## Notas
  - Foi usado a biblioteca **opencv-python** para leitura dos videos
@@ -19,7 +19,7 @@ from VideoExtractor import VideoExtractor
 
 ```
 
-* Leitura do Video 
+* Leitura de Vídeo para Frames
 
 ```python
 
@@ -31,8 +31,17 @@ VideoExtractor.VideoToFrames(path=, code=, skipFrames=, scalePercent=, outputFol
 
 ```python
 
-frames = VideoExtractorLoadFramesFromFolder(folderPath=, code=)
+frames = VideoExtractor.LoadFramesFromFolder(folderPath=, code=)
 
 ```
+
+* Salvar frames em um vídeo
+
+```python
+
+VideoExtractor.SaveFramesToVideo(frames=, outputPath=, fourcc=, fps=)
+
+```
+
 
 

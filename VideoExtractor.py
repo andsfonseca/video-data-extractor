@@ -33,6 +33,7 @@ class VideoExtractor:
         skippedFrames = 0
 
         size = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        zFillCounter = len(str(size))
 
         loop = tqdm(total=size//(skipFrames+1), position=0, leave=False)
 
@@ -70,7 +71,7 @@ class VideoExtractor:
                 filename = os.path.splitext(tail)
 
                 cv2.imwrite(
-                    outputFolderPath + filename[0] + "_" + str(counterFrames) + ".jpg", frame)
+                    outputFolderPath + filename[0] + "_" + str(counterFrames).zfill(zFillCounter) + ".jpg", frame)
 
         loop.close()
         cap.release()
@@ -96,8 +97,32 @@ class VideoExtractor:
                 frames.append(img)
         return frames
         
-    # @staticmethod
-    # def RemoveBackgroundFromFrames(frames, method="image"):
-    #     if(method == "image"):
-    #         pass
-    #     return None
+    @staticmethod
+    def SaveFramesToVideo(frames, outputPath, fourcc=cv2.VideoWriter_fourcc(*'XVID'), fps=20.0):
+        """Lê um conjunto de frames em uma pasta
+
+        Parameters:
+            frames (Array): Array de Frames do Video
+            outputPath (String): Caminho do Video
+            fourcc (Object): Codec do Video
+            fps (Float): Frames por Segundo
+
+        """
+        if (len(frames) == 0): return
+
+        size = len(frames)
+
+        width = frames[0].shape[1]
+        height = frames[0].shape[0]
+        dsize = (width, height)
+
+        loop = tqdm(total=size, position=0, leave=False)
+        out = cv2.VideoWriter(outputPath,fourcc, fps, dsize)
+
+        for frame in frames:
+            out.write(frame)
+            loop.set_description("Salvando Frame...")
+            loop.update(1)
+        
+        loop.close()
+        out.release()
