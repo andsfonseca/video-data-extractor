@@ -1,8 +1,8 @@
-# Extração de dados usando videos
+# Extração de dados usando vídeos
 
 ## O que é?
 
-Esta bibliteca contém métodos rápidos que ajudam a manipular dados de videos. Boa parte dos métodos usados aqui já existem na literatura.
+Esta bibliteca contém métodos rápidos que ajudam a manipular dados de vídeos. Boa parte dos métodos usados aqui já existem na literatura.
 
 Os métodos do repositórios foram implementados por mim.
 
@@ -19,7 +19,7 @@ from VideoExtractor import VideoExtractor
 
 ```
 
-* Leitura de Vídeo para Frames
+* Leitura de vídeo para frames
 
 ```python
 
@@ -27,7 +27,7 @@ VideoExtractor.VideoToFrames(path=, code=, skipFrames=, scalePercent=, outputFol
 
 ```
 
-* Leitura de Frames em uma Pasta (Leitura de Imagens)
+* Leitura de frames em uma pasta (leitura de imagens)
 
 ```python
 
