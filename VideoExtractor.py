@@ -11,7 +11,7 @@ class VideoExtractor:
         return None
 
     @staticmethod
-    def VideoToFrames(path, code=None, skipFrames=0, scalePercent=100, outputFolderPath=None):
+    def VideoToFrames(path, code=None, skipFrames=0, scalePercent=100, outputFolderPath=None, returnsImagesInsteadOfFilenames = False):
         """Recebe um vídeo e retorna um conjunto de Imagens
 
         Parameters:
@@ -19,10 +19,11 @@ class VideoExtractor:
             code (Object): Saída de Cor dos Frames
             scalePercent (Integer): Porcentagem de Escala
             skipFrames (Integer): Ignora um determinado número de Frames
-            outputFolderPath (String): Caminho que as imagens serão salvas (Deixar vazio para não salvar)
+            outputFolderPath (String): Caminho que as imagens serão salvas (Deixar vazio para não salvar). Caso definida, o nome do arquivo será retornada em vez da imagem
+            returnsImagesInsteadOfFilenames (bool): Caso um caminho de saída esteja definido e está flag ativada, o código irá retornar frames em vez de nomes do arquivo 
 
         Returns:
-            Array: Frames Capturados do Video
+            Array: Frames Capturados do Video ou Caminho dos Frames em uma pasta
         """
 
         frames = []
@@ -64,17 +65,24 @@ class VideoExtractor:
                 dsize = (width, height)
                 frame = cv2.resize(frame, dsize)
 
-            frames.append(frame)
-
             if(not outputFolderPath is None):
                 _, tail = os.path.split(path)
                 filename = os.path.splitext(tail)
-
-                cv2.imwrite(
-                    outputFolderPath + filename[0] + "_" + str(counterFrames).zfill(zFillCounter) + ".jpg", frame)
+                
+                fullFilename = outputFolderPath + filename[0] + "_" + str(counterFrames).zfill(zFillCounter) + ".jpg"
+                cv2.imwrite(fullFilename, frame)
+                
+                if(returnsImagesInsteadOfFilenames):
+                    frames.append(frame)
+                else:
+                    frames.append(fullFilename)
+            else:
+                frames.append(frame)
 
         loop.close()
         cap.release()
+
+        return frames
 
     @staticmethod
     def LoadFramesFromFolder(folderPath, code=None):
